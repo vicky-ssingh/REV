@@ -3,218 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reviewer Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Edit Profile - Journal Website</title>
     <style>
         :root {
-            --primary-color: #2C3E50;
-            --secondary-color: #E74C3C;
-            --accent-color: #F39C12;
-            --background-color: #ECF0F1;
-            --text-color: #2C3E50;
-            --button-primary: #3498DB;
-            --button-hover: #2980B9;
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --border-color: #ddd;
         }
+
         body {
             font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
             background-color: var(--background-color);
-            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
         }
-        .btn {
-            display: inline-flex;
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        h1 {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: var(--secondary-color);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab:hover, .tab.active {
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            font-weight: normal;
         }
-        .btn-primary {
-            background-color: var(--button-primary);
-            color: white;
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
         }
-        .btn-primary:hover {
-            background-color: var(--button-hover);
+
+        .btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
         }
-        .btn-outline {
-            border: 1px solid var(--text-color);
-            color: var(--text-color);
+
+        .btn:hover {
+            background-color: #2980b9;
         }
-        .btn-outline:hover {
-            background-color: var(--text-color);
-            color: white;
+
+        .help-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 14px;
+            cursor: help;
+            margin-left: 5px;
+        }
+
+        .privacy-notice, .required-fields-note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .rich-text-editor {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            min-height: 100px;
+        }
+
+        .profile-image-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .profile-image-upload:hover {
+            background-color: #f9f9f9;
+        }
+
+        .api-key {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            word-break: break-all;
         }
     </style>
 </head>
 <body>
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="h-10 w-auto">
-                <nav class="hidden md:flex ml-10 space-x-8">
-                    <a href="#" class="text-gray-700 hover:text-blue-500">Product & Service</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-500">Topic</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-500">Journal</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-500">About Us</a>
-                </nav>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="btn btn-outline hidden md:inline-flex">Submission Window</button>
-                <div class="relative">
-                    <button class="btn btn-outline relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                        </svg>
-                        <span class="sr-only">Notifications</span>
-                        <div class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></div>
-                    </button>
-                </div>
-                <div class="relative">
-                    <button class="btn btn-outline flex items-center space-x-2">
-                        <img src="/placeholder.svg?height=32&width=32" alt="@reviewer" class="h-8 w-8 rounded-full">
-                        <span class="hidden md:inline-block">reviewer@example.com</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Welcome, Reviewer!</h1>
-            <p class="mt-2 text-gray-600">Thank you for contributing to the peer-review process.</p>
+    <div class="container">
+        <h1>Edit Profile <span class="help-icon" title="Edit your profile information">?</span></h1>
+        <div class="tabs">
+            <div class="tab active" data-tab="identity">Identity</div>
+            <div class="tab" data-tab="contact">Contact</div>
+            <div class="tab" data-tab="roles">Roles</div>
+            <div class="tab" data-tab="public">Public</div>
+            <div class="tab" data-tab="password">Password</div>
+            <div class="tab" data-tab="notifications">Notifications</div>
+            <div class="tab" data-tab="api-key">API Key</div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="md:col-span-2 space-y-6">
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Review Menu</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button class="btn btn-outline justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                            </svg>
-                            Assigned Reviews
-                        </button>
-                        <button class="btn btn-outline justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Submit Review
-                        </button>
-                        <button class="btn btn-outline justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                            </svg>
-                            Review History
-                        </button>
-                        <button class="btn btn-outline justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                            </svg>
-                            Manuscript Feedback
-                        </button>
-                        <button class="btn btn-outline justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                            </svg>
-                            Review Guidelines
-                        </button>
+        <div id="identity" class="tab-content active">
+            <h2>Identity <span class="help-icon" title="Manage your personal information">?</span></h2>
+            <form>
+                <div class="form-group">
+                    <label for="username">Username (non-editable)</label>
+                    <input type="text" id="username" value="johndoe123" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="given-name">Given Name*</label>
+                    <input type="text" id="given-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="family-name">Family Name*</label>
+                    <input type="text" id="family-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="full-author-name">Full Author Name</label>
+                    <input type="text" id="full-author-name" placeholder="Dr. Alan P. Mwandenga">
+                </div>
+                <div class="form-group">
+                    <label for="preferred-public-name">Preferred Public Name</label>
+                    <input type="text" id="preferred-public-name">
+                </div>
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+
+        <div id="contact" class="tab-content">
+            <h2>Contact Information <span class="help-icon" title="Manage your contact details">?</span></h2>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signature">Signature</label>
+                    <div class="rich-text-editor" id="signature" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="affiliation">Affiliation</label>
+                    <input type="text" id="affiliation">
+                </div>
+                <div class="form-group">
+                    <label for="mailing-address">Mailing Address</label>
+                    <div class="rich-text-editor" id="mailing-address" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country*</label>
+                    <select id="country" required>
+                        <option value="">Select a country</option>
+                        <option value="us">United States</option>
+                        <option value="uk">United Kingdom</option>
+                        <!-- Add more country options -->
+                    </select>
+                </div>
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+
+        <div id="roles" class="tab-content">
+            <h2>Roles <span class="help-icon" title="Select your roles within the journal">?</span></h2>
+            <form>
+                <div class="form-group">
+                    <label>Roles</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="role" value="reader"> Reader</label>
+                        <label><input type="checkbox" name="role" value="author"> Author</label>
+                        <label><input type="checkbox" name="role" value="reviewer"> Reviewer</label>
                     </div>
                 </div>
-
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Recent Activity</h2>
-                    <ul class="space-y-4">
-                        <li class="flex items-center space-x-3">
-                            <div class="flex-shrink-0">
-                                <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900">New review assigned</p>
-                                <p class="text-sm text-gray-500">2 hours ago</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <div class="flex-shrink-0">
-                                <div class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900">Review deadline approaching</p>
-                                <p class="text-sm text-gray-500">1 day ago</p>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="form-group">
+                    <label for="reviewing-interests">Reviewing Interests</label>
+                    <textarea id="reviewing-interests" rows="4"></textarea>
                 </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">User Menu</h2>
-                    <nav class="space-y-2">
-                        <a href="#" class="btn btn-outline w-full justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                            </svg>
-                            Manage Account
-                        </a>
-                        <a href="#" class="btn btn-outline w-full justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836  2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
-                            </svg>
-                            Edit Profile
-                        </a>
-                        <a href="#" class="btn btn-outline w-full justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                            </svg>
-                            Change Password
-                        </a>
-                        <a href="#" class="btn btn-outline w-full justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
-                            </svg>
-                            Logout
-                        </a>
-                    </nav>
-                </div>
-
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">ORCID ID</h2>
-                    <p class="text-sm text-gray-500">Linked ORCID ID:</p>
-                    <p class="text-gray-900 font-medium">0000-0002-1825-0097</p>
-                </div>
-            </div>
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
+                <button type="submit" class="btn">Save</button>
+            </form>
         </div>
-    </main>
 
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Disclaimer</h3>
-                    <p class="text-sm">This is a sample disclaimer text for the journal website.</p>
+        <div id="public" class="tab-content">
+            <h2>Public Profile <span class="help-icon" title="Manage your public profile information">?</span></h2>
+            <form>
+                <div class="form-group">
+                    <label for="profile-image">Profile Image</label>
+                    <div class="profile-image-upload" id="profile-image">
+                        <p>Drag and drop or click to upload a profile picture</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Terms & Conditions</h3>
-                    <p class="text-sm">Read our terms and conditions <a href="#" class="underline">here</a>.</p>
+                <div class="form-group">
+                    <label for="bio-statement">Bio Statement</label>
+                    <div class="rich-text-editor" id="bio-statement" contenteditable="true"></div>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Privacy Policies</h3>
-                    <p class="text-sm">View our privacy policies <a href="#" class="underline">here</a>.</p>
+                <div class="form-group">
+                    <label for="homepage-url">Homepage URL</label>
+                    <input type="url" id="homepage-url">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="orcid-id">ORCID iD</label>
+                    <input type="text" id="orcid-id" placeholder="0000-0000-0000-0000">
+                </div>
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
+                <button type="submit" class="btn">Save</button>
+            </form>
         </div>
-    </footer>
+
+        <div id="password" class="tab-content">
+            <h2>Change Password <span class="help-icon" title="Update your account password">?</span></h2>
+            <form>
+                <div class="form-group">
+                    <label for="current-password">Current Password*</label>
+                    <input type="password" id="current-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New Password*</label>
+                    <input type="password" id="new-password" required>
+                    <p>Password must be at least 6 characters long.</p>
+                </div>
+                <div class="form-group">
+                    <label for="repeat-password">Repeat New Password*</label>
+                    <input type="password" id="repeat-password" required>
+                </div>
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <button type="submit" class="btn">Save</button>
+                <button type="button" class="btn" style="background-color: #ccc;">Cancel</button>
+            </form>
+        </div>
+
+        <div id="notifications" class="tab-content">
+            <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
+            <form>
+                <h3>Public Announcements</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="notification" value="new-issue"> New issue published</label>
+                    <label><input type="checkbox" name="notification" value="announcements"> General announcements</label>
+                </div>
+
+                <h3>Submission Events</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="notification" value="submission-ack"> Submission acknowledgement</label>
+                    <label><input type="checkbox" name="notification" value="editor-decision"> Editor decision</label>
+                </div>
+
+                <h3>Reviewing Events</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="notification" value="review-request"> Review request</label>
+                    <label><input type="checkbox" name="notification" value="review-reminder"> Review reminder</label>
+                </div>
+
+                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+
+        <div id="api-key" class="tab-content">
+            <h2>API Key <span class="help-icon" title="Manage your API key">?</span></h2>
+            <p>An API key is required to be set in the config file before generation.</p>
+            <div class="form-group">
+                <label>Your API Key:</label>
+                <div class="api-key">a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6</div>
+            </div>
+            <button class="btn">Regenerate API Key</button>
+            <button class="btn" style="background-color: #e74c3c;">Delete API Key</button>
+            <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Profile image upload simulation
+        const profileImageUpload =   document.getElementById('profile-image');
+        profileImageUpload.addEventListener('click', () => {
+            alert('This would open a file picker in a real implementation.');
+        });
+
+        // Password validation
+        const newPasswordInput = document.getElementById('new-password');
+        const repeatPasswordInput = document.getElementById('repeat-password');
+
+        function validatePassword() {
+            if (newPasswordInput.value !== repeatPasswordInput.value) {
+                repeatPasswordInput.setCustomValidity("Passwords don't match");
+            } else {
+                repeatPasswordInput.setCustomValidity('');
+            }
+        }
+
+        newPasswordInput.addEventListener('change', validatePassword);
+        repeatPasswordInput.addEventListener('keyup', validatePassword);
+    </script>
 </body>
 </html>
