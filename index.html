@@ -210,24 +210,30 @@
         </div>
 
         <div id="identity" class="tab-content active">
-            <h2>Roles <span class="help-icon" title="Select your roles within the journal">?</span></h2>
+            <h2>Public Profile <span class="help-icon" title="Manage your public profile information">?</span></h2>
             <form>
                 <div class="form-group">
-                    <label>Roles</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="role" value="reader"> Reader</label>
-                        <label><input type="checkbox" name="role" value="author"> Author</label>
-                        <label><input type="checkbox" name="role" value="reviewer"> Reviewer</label>
+                    <label for="profile-image">Profile Image</label>
+                    <div class="profile-image-upload" id="profile-image">
+                        <p>Drag and drop or click to upload a profile picture</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="reviewing-interests">Reviewing Interests</label>
-                    <textarea id="reviewing-interests" rows="4"></textarea>
+                    <label for="bio-statement">Bio Statement</label>
+                    <div class="rich-text-editor" id="bio-statement" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label for="homepage-url">Homepage URL</label>
+                    <input type="url" id="homepage-url">
+                </div>
+                <div class="form-group">
+                    <label for="orcid-id">ORCID iD</label>
+                    <input type="text" id="orcid-id" placeholder="0000-0000-0000-0000">
                 </div>
                 <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
                 <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
                 <button type="submit" class="btn">Save</button>
-            </form>  
+            </form>    
         </div>
 
         <div id="contact" class="tab-content">
