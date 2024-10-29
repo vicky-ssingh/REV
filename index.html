@@ -168,6 +168,32 @@
             border-radius: 4px;
             word-break: break-all;
         }
+
+        .notification-group {
+            margin-bottom: 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -324,24 +350,90 @@
             <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
             <form>
                 <h3>Public Announcements</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="notification" value="new-issue"> New issue published</label>
-                    <label><input type="checkbox" name="notification" value="announcements"> General announcements</label>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>Announcements</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="announcements" value="enable"> Enable</label>
+                            <label><input type="radio" name="announcements" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Issue publications</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="issue-publications" value="enable"> Enable</label>
+                            <label><input type="radio" name="issue-publications" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Open access changes</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="open-access-changes" value="enable"> Enable</label>
+                            <label><input type="radio" name="open-access-changes" value="disable"> Disable</label>
+                        </div>
+                    </div>
                 </div>
 
                 <h3>Submission Events</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="notification" value="submission-ack"> Submission acknowledgement</label>
-                    <label><input type="checkbox" name="notification" value="editor-decision"> Editor decision</label>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>New article submissions</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="new-submissions" value="enable"> Enable</label>
+                            <label><input type="radio" name="new-submissions" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Assignments to editors</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="editor-assignments" value="enable"> Enable</label>
+                            <label><input type="radio" name="editor-assignments" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Discussion updates</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="discussion-updates" value="enable"> Enable</label>
+                            <label><input type="radio" name="discussion-updates" value="disable"> Disable</label>
+                        </div>
+                    </div>
                 </div>
 
                 <h3>Reviewing Events</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="notification" value="review-request"> Review request</label>
-                    <label><input type="checkbox" name="notification" value="review-reminder"> Review reminder</label>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>Comments by reviewers on articles</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="reviewer-comments" value="enable"> Enable</label>
+                            <label><input type="radio" name="reviewer-comments" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Editors</h3>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>Weekly email summaries of outstanding tasks</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="editor-summaries" value="enable"> Enable</label>
+                            <label><input type="radio" name="editor-summaries" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Statistics Report Summary</h3>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>Regular summaries of statistics reports</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="statistics-summaries" value="enable"> Enable</label>
+                            <label><input type="radio" name="statistics-summaries" value="disable"> Disable</label>
+                        </div>
+                    </div>
                 </div>
 
                 <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
                 <button type="submit" class="btn">Save</button>
             </form>
         </div>
