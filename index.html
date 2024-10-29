@@ -210,36 +210,19 @@
         </div>
 
         <div id="identity" class="tab-content active">
-            <h2>Contact Information <span class="help-icon" title="Manage your contact details">?</span></h2>
+            <h2>Roles <span class="help-icon" title="Select your roles within the journal">?</span></h2>
             <form>
                 <div class="form-group">
-                    <label for="email">Email Address*</label>
-                    <input type="email" id="email" required>
+                    <label>Roles</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="role" value="reader"> Reader</label>
+                        <label><input type="checkbox" name="role" value="author"> Author</label>
+                        <label><input type="checkbox" name="role" value="reviewer"> Reviewer</label>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="signature">Signature</label>
-                    <div class="rich-text-editor" id="signature" contenteditable="true"></div>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone">
-                </div>
-                <div class="form-group">
-                    <label for="affiliation">Affiliation</label>
-                    <input type="text" id="affiliation">
-                </div>
-                <div class="form-group">
-                    <label for="mailing-address">Mailing Address</label>
-                    <div class="rich-text-editor" id="mailing-address" contenteditable="true"></div>
-                </div>
-                <div class="form-group">
-                    <label for="country">Country*</label>
-                    <select id="country" required>
-                        <option value="">Select a country</option>
-                        <option value="us">United States</option>
-                        <option value="uk">United Kingdom</option>
-                        <!-- Add more country options -->
-                    </select>
+                    <label for="reviewing-interests">Reviewing Interests</label>
+                    <textarea id="reviewing-interests" rows="4"></textarea>
                 </div>
                 <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
                 <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
