@@ -210,25 +210,57 @@
         </div>
 
         <div id="identity" class="tab-content active">
-            <h2>Change Password <span class="help-icon" title="Update your account password">?</span></h2>
+            <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
             <form>
-                <div class="form-group">
-                    <label for="current-password">Current Password*</label>
-                    <input type="password" id="current-password" required>
+                <h3>Public Announcements</h3>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>Announcements</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="announcements" value="enable"> Enable</label>
+                            <label><input type="radio" name="announcements" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Issue publications</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="issue-publications" value="enable"> Enable</label>
+                            <label><input type="radio" name="issue-publications" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Open access changes</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="open-access-changes" value="enable"> Enable</label>
+                            <label><input type="radio" name="open-access-changes" value="disable"> Disable</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="new-password">New Password*</label>
-                    <input type="password" id="new-password" required>
-                    <p>Password must be at least 6 characters long.</p>
+
+                <h3>Submission Events</h3>
+                <div class="notification-group">
+                    <div class="notification-item">
+                        <label>New article submissions</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="new-submissions" value="enable"> Enable</label>
+                            <label><input type="radio" name="new-submissions" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Assignments to editors</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="editor-assignments" value="enable"> Enable</label>
+                            <label><input type="radio" name="editor-assignments" value="disable"> Disable</label>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <label>Discussion updates</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="discussion-updates" value="enable"> Enable</label>
+                            <label><input type="radio" name="discussion-updates" value="disable"> Disable</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="repeat-password">Repeat New Password*</label>
-                    <input type="password" id="repeat-password" required>
-                </div>
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <button type="submit" class="btn">Save</button>
-                <button type="button" class="btn" style="background-color: #ccc;">Cancel</button>
-            </form>
         </div>
 
         <div id="contact" class="tab-content">
