@@ -210,57 +210,15 @@
         </div>
 
         <div id="identity" class="tab-content active">
-            <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
-            <form>
-                <h3>Public Announcements</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>Announcements</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="announcements" value="enable"> Enable</label>
-                            <label><input type="radio" name="announcements" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Issue publications</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="issue-publications" value="enable"> Enable</label>
-                            <label><input type="radio" name="issue-publications" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Open access changes</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="open-access-changes" value="enable"> Enable</label>
-                            <label><input type="radio" name="open-access-changes" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Submission Events</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>New article submissions</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="new-submissions" value="enable"> Enable</label>
-                            <label><input type="radio" name="new-submissions" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Assignments to editors</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="editor-assignments" value="enable"> Enable</label>
-                            <label><input type="radio" name="editor-assignments" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Discussion updates</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="discussion-updates" value="enable"> Enable</label>
-                            <label><input type="radio" name="discussion-updates" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
+            <h2>API Key <span class="help-icon" title="Manage your API key">?</span></h2>
+            <p>An API key is required to be set in the config file before generation.</p>
+            <div class="form-group">
+                <label>Your API Key:</label>
+                <div class="api-key">a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6</div>
+            </div>
+            <button class="btn">Regenerate API Key</button>
+            <button class="btn" style="background-color: #e74c3c;">Delete API Key</button>
+            <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
         </div>
 
         <div id="contact" class="tab-content">
