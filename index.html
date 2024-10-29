@@ -210,32 +210,41 @@
         </div>
 
         <div id="identity" class="tab-content active">
-            <h2>Identity <span class="help-icon" title="Manage your personal information">?</span></h2>
+            <h2>Contact Information <span class="help-icon" title="Manage your contact details">?</span></h2>
             <form>
                 <div class="form-group">
-                    <label for="username">Username (non-editable)</label>
-                    <input type="text" id="username" value="johndoe123" disabled>
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="given-name">Given Name*</label>
-                    <input type="text" id="given-name" required>
+                    <label for="signature">Signature</label>
+                    <div class="rich-text-editor" id="signature" contenteditable="true"></div>
                 </div>
                 <div class="form-group">
-                    <label for="family-name">Family Name*</label>
-                    <input type="text" id="family-name" required>
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone">
                 </div>
                 <div class="form-group">
-                    <label for="full-author-name">Full Author Name</label>
-                    <input type="text" id="full-author-name" placeholder="Dr. Alan P. Mwandenga">
+                    <label for="affiliation">Affiliation</label>
+                    <input type="text" id="affiliation">
                 </div>
                 <div class="form-group">
-                    <label for="preferred-public-name">Preferred Public Name</label>
-                    <input type="text" id="preferred-public-name">
+                    <label for="mailing-address">Mailing Address</label>
+                    <div class="rich-text-editor" id="mailing-address" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country*</label>
+                    <select id="country" required>
+                        <option value="">Select a country</option>
+                        <option value="us">United States</option>
+                        <option value="uk">United Kingdom</option>
+                        <!-- Add more country options -->
+                    </select>
                 </div>
                 <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
                 <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
                 <button type="submit" class="btn">Save</button>
-            </form>
+            </form>  
         </div>
 
         <div id="contact" class="tab-content">
@@ -349,8 +358,7 @@
         <div id="notifications" class="tab-content">
             <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
             <form>
-                <p> Select the system events that you wish to be notified about. Unchecking an item will prevent notifications of the event from showing up in the system and also from being emailed to you. Checked events will appear in the system and you have an extra option to receive or not the same notification by email.</p>
-                <h3>Public Announcements</h3> <br>
+                <h3>Public Announcements</h3>
                 <div class="notification-group">
                     <div class="notification-item">
                         <label>Announcements</label>
