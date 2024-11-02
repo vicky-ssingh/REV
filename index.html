@@ -9,100 +9,175 @@
 </head>
 <body>
     <div class="container">
-        <div class="progress-bar">
-            <div class="progress"></div>
-            <div class="milestone" data-step="1"><i data-lucide="file-text"></i></div>
-            <div class="milestone" data-step="2"><i data-lucide="upload-cloud"></i></div>
-            <div class="milestone" data-step="3"><i data-lucide="users"></i></div>
-            <div class="milestone" data-step="4"><i data-lucide="message-square"></i></div>
-            <div class="milestone" data-step="5"><i data-lucide="check-circle"></i></div>
-        </div>
-
-        <div id="welcome" class="step active">
-            <h1 class="animated-text">Ready to Share Your Research?</h1>
-            <div class="checklist">
-                <div class="checklist-item">
-                    <i data-lucide="clipboard-check"></i>
-                    <span>Article is original</span>
-                </div>
-                <div class="checklist-item">
-                    <i data-lucide="book-open"></i>
-                    <span>Author guidelines reviewed</span>
-                </div>
-                <div class="checklist-item">
-                    <i data-lucide="file-type"></i>
-                    <span>Files in correct format</span>
+        <header>
+            <h1>Journal Submission</h1>
+            <div class="progress-bar">
+                <div class="progress"></div>
+                <div class="step-labels">
+                    <span class="step-label active">Details</span>
+                    <span class="step-label">Upload Files</span>
+                    <span class="step-label">Contributors</span>
+                    <span class="step-label">For Editors</span>
+                    <span class="step-label">Review & Submit</span>
                 </div>
             </div>
-            <button id="startSubmission" class="btn primary">Start Submission</button>
-        </div>
+        </header>
 
-        <form id="submissionForm">
-            <div id="details" class="step">
-                <h2>Article Details</h2>
-                <div class="form-group">
-                    <label for="title">Title <span class="required">*</span></label>
-                    <input type="text" id="title" name="title" required>
-                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Enter the full title of your article"></i>
-                    <div class="auto-save">
-                        <i data-lucide="loader"></i> Auto-saving...
+        <main>
+            <form id="submissionForm">
+                <div id="step1" class="step active">
+                    <h2>Welcome, <span id="username">Researcher</span>! Let's get your research published.</h2>
+                    <p>We'll guide you through the submission process step by step. Let's start with the details of your work.</p>
+                    
+                    <div class="form-group">
+                        <label for="title">Title <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" required>
+                        <div class="character-counter">0 / 200 characters</div>
+                        <i class="tooltip" data-lucide="help-circle" data-tooltip="An effective title should be descriptive and concise"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keywords">Keywords <span class="required">*</span></label>
+                        <div class="tag-input">
+                            <input type="text" id="keywords" name="keywords">
+                            <div class="tags"></div>
+                        </div>
+                        <i class="tooltip" data-lucide="help-circle" data-tooltip="Enter keywords that best describe your research"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="abstract">Abstract <span class="required">*</span></label>
+                        <div id="abstract-editor" class="rich-text-editor">
+                            <div class="editor-toolbar">
+                                <button type="button" data-command="bold"><i data-lucide="bold"></i></button>
+                                <button type="button" data-command="italic"><i data-lucide="italic"></i></button>
+                                <button type="button" data-command="insertUnorderedList"><i data-lucide="list"></i></button>
+                            </div>
+                            <div id="abstract" class="editor-content" contenteditable="true"></div>
+                        </div>
+                        <i class="tooltip" data-lucide="help-circle" data-tooltip="Keep it concise and focus on key points"></i>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="keywords">Keywords <span class="required">*</span></label>
-                    <input type="text" id="keywords" name="keywords" required>
-                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Enter brief phrases representing main topics, separated by commas"></i>
-                </div>
-                <div class="form-group">
-                    <label for="abstract">Abstract <span class="required">*</span></label>
-                    <textarea id="abstract" name="abstract" rows="6" required></textarea>
-                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Provide a brief summary of your article (usually 150-300 words)"></i>
-                    <div class="word-counter">0 / 300 words</div>
-                </div>
-            </div>
 
-            <div id="upload" class="step">
-                <h2>Upload Files</h2>
-                <div class="upload-area" id="dropZone">
-                    <i data-lucide="upload-cloud" class="upload-icon"></i>
-                    <p>Drag and drop files here or click to select files</p>
-                    <input type="file" id="fileUpload" multiple hidden>
+                <div id="step2" class="step">
+                    <h2>Upload Files</h2>
+                    <div class="upload-area" id="uploadArea">
+                        <i data-lucide="upload-cloud" class="upload-icon"></i>
+                        <p>Drag and drop files here or click to select files</p>
+                        <input type="file" id="fileUpload" multiple hidden>
+                    </div>
+                    <div id="fileList" class="file-list"></div>
+                    <div class="file-checklist">
+                        <h3>Required Files:</h3>
+                        <ul>
+                            <li><i data-lucide="file-text"></i> Main Manuscript</li>
+                            <li><i data-lucide="image"></i> Figures (if applicable)</li>
+                            <li><i data-lucide="table"></i> Tables (if applicable)</li>
+                        </ul>
+                    </div>
                 </div>
-                <div id="filePreview" class="file-preview"></div>
-                <button type="button" id="addMoreFiles" class="btn secondary">Add More Files</button>
-            </div>
 
-            <div id="contributors" class="step">
-                <h2>Contributors</h2>
-                <div id="contributorList"></div>
-                <button type="button" id="addContributor" class="btn secondary">Add Contributor</button>
-            </div>
-
-            <div id="editors" class="step">
-                <h2>For the Editors</h2>
-                <div class="form-group">
-                    <label for="editorComments">Additional Comments for Editors</label>
-                    <textarea id="editorComments" name="editorComments" rows="6" class="handwritten-style" placeholder="Share any additional info for our editors..."></textarea>
+                <div id="step3" class="step">
+                    <h2>Contributors</h2>
+                    <div id="contributorList" class="contributor-list"></div>
+                    <button type="button" id="addContributor" class="btn secondary">Add Contributor</button>
                 </div>
-                <p class="encouraging-message">Help us understand the significance of your research</p>
-            </div>
 
-            <div id="review" class="step">
-                <h2>Review & Submit</h2>
-                <div id="reviewSummary"></div>
-                <div id="validationMessages"></div>
-                <div class="final-affirmation">
-                    <h3>Ready to Share Your Work with the World?</h3>
-                    <button type="submit" id="submitBtn" class="btn primary pulse">Submit</button>
+                <div id="step4" class="step">
+                    <h2>For the Editors</h2>
+                    <div class="form-group">
+                        <label for="editorComments">Additional Comments for Editors</label>
+                        <textarea id="editorComments" name="editorComments" rows="6" placeholder="Add any specific details or questions you want the editor to consider..."></textarea>
+                    </div>
+                    <div class="guidelines">
+                        <h3>Guidelines:</h3>
+                        <ul>
+                            <li>Be concise and specific in your comments</li>
+                            <li>Mention any special considerations for your submission</li>
+                            <li>Avoid repeating information already provided in other sections</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-actions">
-                <button type="button" id="prevBtn" class="btn secondary">Previous</button>
-                <button type="button" id="nextBtn" class="btn primary">Continue</button>
-            </div>
-        </form>
+                <div id="step5" class="step">
+                    <h2>Review & Submit</h2>
+                    <div id="reviewSummary"></div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="confirmSubmission" required>
+                            I confirm that I have reviewed all the information and agree to the submission requirements.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="prevBtn" class="btn secondary">Previous</button>
+                    <button type="button" id="saveBtn" class="btn secondary">Save for Later</button>
+                    <button type="button" id="nextBtn" class="btn primary">Continue</button>
+                    <button type="submit" id="submitBtn" class="btn primary" style="display: none;">Submit</button>
+                </div>
+            </form>
+        </main>
+
+        <div id="helpIcon" class="help-icon">
+            <i data-lucide="help-circle"></i>
+        </div>
+
+        <div id="helpPanel" class="help-panel">
+            <h3>Frequently Asked Questions</h3>
+            <ul>
+                <li>
+                    <h4>How long should my abstract be?</h4>
+                    <p>Typically, abstracts should be between 150-300 words.</p>
+                </li>
+                <li>
+                    <h4>What file formats are accepted?</h4>
+                    <p>We accept .doc, .docx, .pdf for manuscripts, and .jpg, .png for images.</p>
+                </li>
+                <li>
+                    <h4>Can I save my progress and return later?</h4>
+                    <p>Yes, you can use the "Save for Later" button at any time to save your progress.</p>
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <div id="contributorModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Contributor</h2>
+            <form id="contributorForm">
+                <div class="form-group">
+                    <label for="contributorName">Name <span class="required">*</span></label>
+                    <input type="text" id="contributorName" name="contributorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="contributorEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="contributorEmail" name="contributorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contributorRole">Role <span class="required">*</span></label>
+                    <select id="contributorRole" name="contributorRole" required>
+                        <option value="">Select a role</option>
+                        <option value="author">Author</option>
+                        <option value="co-author">Co-Author</option>
+                        <option value="editor">Editor</option>
+                        <option value="reviewer">Reviewer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isPrimaryContact" name="isPrimaryContact">
+                        Make Primary Contact
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelContributor" class="btn secondary">Cancel</button>
+                    <button type="submit" class="btn primary">Add Contributor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
