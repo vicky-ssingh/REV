@@ -3,87 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal Submission</title>
+    <title>Interactive Journal Submission</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Journal Submission</h1>
         <div class="progress-bar">
             <div class="progress"></div>
+            <div class="milestone" data-step="1"><i data-lucide="file-text"></i></div>
+            <div class="milestone" data-step="2"><i data-lucide="upload-cloud"></i></div>
+            <div class="milestone" data-step="3"><i data-lucide="users"></i></div>
+            <div class="milestone" data-step="4"><i data-lucide="message-square"></i></div>
+            <div class="milestone" data-step="5"><i data-lucide="check-circle"></i></div>
         </div>
-        <div class="tabs">
-            <button class="tab-button active" data-tab="details">Details</button>
-            <button class="tab-button" data-tab="upload">Upload Files</button>
-            <button class="tab-button" data-tab="contributors">Contributors</button>
-            <button class="tab-button" data-tab="editors">For the Editors</button>
-            <button class="tab-button" data-tab="review">Review & Submit</button>
+
+        <div id="welcome" class="step active">
+            <h1 class="animated-text">Ready to Share Your Research?</h1>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <i data-lucide="clipboard-check"></i>
+                    <span>Article is original</span>
+                </div>
+                <div class="checklist-item">
+                    <i data-lucide="book-open"></i>
+                    <span>Author guidelines reviewed</span>
+                </div>
+                <div class="checklist-item">
+                    <i data-lucide="file-type"></i>
+                    <span>Files in correct format</span>
+                </div>
+            </div>
+            <button id="startSubmission" class="btn primary">Start Submission</button>
         </div>
+
         <form id="submissionForm">
-            <div class="tab-content active" id="details">
+            <div id="details" class="step">
                 <h2>Article Details</h2>
                 <div class="form-group">
-                    <label for="title">Article Title <span class="required">*</span></label>
+                    <label for="title">Title <span class="required">*</span></label>
                     <input type="text" id="title" name="title" required>
-                    <i class="tooltip" data-lucide="help-circle"></i>
-                    <span class="tooltip-text">Enter the full title of your article</span>
+                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Enter the full title of your article"></i>
+                    <div class="auto-save">
+                        <i data-lucide="loader"></i> Auto-saving...
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="keywords">Keywords <span class="required">*</span></label>
                     <input type="text" id="keywords" name="keywords" required>
-                    <i class="tooltip" data-lucide="help-circle"></i>
-                    <span class="tooltip-text">Enter brief phrases representing main topics, separated by commas</span>
+                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Enter brief phrases representing main topics, separated by commas"></i>
                 </div>
                 <div class="form-group">
                     <label for="abstract">Abstract <span class="required">*</span></label>
                     <textarea id="abstract" name="abstract" rows="6" required></textarea>
-                    <i class="tooltip" data-lucide="help-circle"></i>
-                    <span class="tooltip-text">Provide a brief summary of your article (usually 150-300 words)</span>
+                    <i class="help-icon" data-lucide="help-circle" data-tooltip="Provide a brief summary of your article (usually 150-300 words)"></i>
+                    <div class="word-counter">0 / 300 words</div>
                 </div>
             </div>
-            <div class="tab-content" id="upload">
+
+            <div id="upload" class="step">
                 <h2>Upload Files</h2>
-                <div class="upload-area">
+                <div class="upload-area" id="dropZone">
                     <i data-lucide="upload-cloud" class="upload-icon"></i>
                     <p>Drag and drop files here or click to select files</p>
                     <input type="file" id="fileUpload" multiple hidden>
                 </div>
-                <div class="file-list">
-                    <h3>Uploaded Files:</h3>
-                    <ul id="fileList"></ul>
-                </div>
-                <div class="file-requirements">
-                    <h3>File Requirements:</h3>
-                    <ul>
-                        <li>Accepted formats: .doc, .docx, .pdf, .jpg, .png</li>
-                        <li>Maximum file size: 10MB per file</li>
-                        <li>At least one Article Text file is required</li>
-                    </ul>
-                </div>
+                <div id="filePreview" class="file-preview"></div>
+                <button type="button" id="addMoreFiles" class="btn secondary">Add More Files</button>
             </div>
-            <div class="tab-content" id="contributors">
+
+            <div id="contributors" class="step">
                 <h2>Contributors</h2>
                 <div id="contributorList"></div>
-                <button type="button" id="addContributor" class="button secondary">Add Contributor</button>
+                <button type="button" id="addContributor" class="btn secondary">Add Contributor</button>
             </div>
-            <div class="tab-content" id="editors">
+
+            <div id="editors" class="step">
                 <h2>For the Editors</h2>
                 <div class="form-group">
                     <label for="editorComments">Additional Comments for Editors</label>
-                    <textarea id="editorComments" name="editorComments" rows="6" placeholder="Provide any additional context that might help the editorial team assess your submission..."></textarea>
+                    <textarea id="editorComments" name="editorComments" rows="6" class="handwritten-style" placeholder="Share any additional info for our editors..."></textarea>
                 </div>
+                <p class="encouraging-message">Help us understand the significance of your research</p>
             </div>
-            <div class="tab-content" id="review">
+
+            <div id="review" class="step">
                 <h2>Review & Submit</h2>
                 <div id="reviewSummary"></div>
                 <div id="validationMessages"></div>
+                <div class="final-affirmation">
+                    <h3>Ready to Share Your Work with the World?</h3>
+                    <button type="submit" id="submitBtn" class="btn primary pulse">Submit</button>
+                </div>
             </div>
+
             <div class="form-actions">
-                <button type="button" id="prevBtn" class="button secondary">Previous</button>
-                <button type="button" id="saveBtn" class="button secondary">Save for Later</button>
-                <button type="button" id="nextBtn" class="button primary">Continue</button>
-                <button type="submit" id="submitBtn" class="button primary" style="display: none;">Submit</button>
+                <button type="button" id="prevBtn" class="btn secondary">Previous</button>
+                <button type="button" id="nextBtn" class="btn primary">Continue</button>
             </div>
         </form>
     </div>
