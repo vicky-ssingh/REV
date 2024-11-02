@@ -3,178 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal Blog - Latest Research and Insights</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Journal Indexes</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <h1>Journal Blog</h1>
-                <div class="search-and-categories">
-                    <div class="search-container">
-                        <input type="search" placeholder="Search articles...">
-                        <i data-lucide="search"></i>
-                    </div>
-                    <div class="dropdown">
-                        <button class="dropbtn">Categories <i data-lucide="chevron-down"></i></button>
-                        <div class="dropdown-content">
-                            <a href="#">Research Insights</a>
-                            <a href="#">Data Analysis</a>
-                            <a href="#">Technology</a>
-                            <a href="#">Case Studies</a>
-                        </div>
-                    </div>
-                </div>
+<body class="min-h-screen bg-gray-100 flex flex-col">
+    <header class="sticky top-0 z-10 w-full border-b bg-white">
+        <div class="container mx-auto flex h-16 items-center px-4">
+            <a href="/" class="flex items-center space-x-2">
+                <img src="/placeholder.svg" alt="Journal Logo" class="w-8 h-8">
+                <span class="font-bold text-xl">Journal Name</span>
+            </a>
+            <nav class="flex items-center space-x-4 lg:space-x-6 mx-6">
+                <button id="aboutBtn" class="text-sm font-medium">About</button>
+                <button id="contactBtn" class="text-sm font-medium">Contact</button>
             </nav>
+            <div class="ml-auto flex items-center space-x-4">
+                <button id="signInBtn" class="px-4 py-2 border rounded">Sign In</button>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded">Sign Up</button>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Latest Research: AI in Healthcare</h2>
-                <p>Explore the groundbreaking applications of artificial intelligence in modern healthcare, from diagnosis to treatment planning and beyond.</p>
-                <a href="#" class="btn">Read More</a>
+    <main class="flex-1">
+        <div class="container mx-auto py-6 px-4">
+            <h1 class="text-3xl font-bold mb-6">Journal Indexes</h1>
+            
+            <div id="volumeCarousel" class="mb-6 overflow-x-auto whitespace-nowrap">
+                <!-- Volume cards will be dynamically inserted here -->
             </div>
-            <div class="hero-image"></div>
-        </section>
 
-        <div class="content-sidebar-layout">
-            <section class="articles">
-                <h2>Latest Articles</h2>
-                <div class="article-grid">
-                    <article class="article-card">
-                        <h3>The Impact of Machine Learning on Scientific Research</h3>
-                        <p>Machine learning is revolutionizing the way scientists approach complex problems, enabling faster data analysis and uncovering hidden patterns in vast datasets.</p>
-                        <div class="article-meta">
-                            <span><i data-lucide="calendar"></i> May 15, 2023</span>
-                            <span><i data-lucide="user"></i> Dr. Jane Smith</span>
-                            <span><i data-lucide="tag"></i> Data Science</span>
-                        </div>
-                        <a href="#" class="btn btn-outline">Read More</a>
-                    </article>
-                    <article class="article-card">
-                        <h3>Advancements in Quantum Computing: A New Era of Computation</h3>
-                        <p>Quantum computing promises to revolutionize information processing, offering the potential to solve complex problems that are currently intractable for classical computers.</p>
-                        <div class="article-meta">
-                            <span><i data-lucide="calendar"></i> May 10, 2023</span>
-                            <span><i data-lucide="user"></i> Prof. Alex Johnson</span>
-                            <span><i data-lucide="tag"></i> Quantum Computing</span>
-                        </div>
-                        <a href="#" class="btn btn-outline">Read More</a>
-                    </article>
-                    <article class="article-card">
-                        <h3>The Role of Big Data in Climate Change Research</h3>
-                        <p>Big data analytics are providing unprecedented insights into climate patterns, helping scientists to better understand and predict the impacts of global warming.</p>
-                        <div class="article-meta">
-                            <span><i data-lucide="calendar"></i> May 5, 2023</span>
-                            <span><i data-lucide="user"></i> Dr. Emily Chen</span>
-                            <span><i data-lucide="tag"></i> Climate Science</span>
-                        </div>
-                        <a href="#" class="btn btn-outline">Read More</a>
-                    </article>
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <select id="volumeSelect" class="w-full md:w-[180px] p-2 border rounded">
+                    <option value="">Select Volume</option>
+                </select>
+                <select id="issueSelect" class="w-full md:w-[180px] p-2 border rounded">
+                    <option value="">Select Issue</option>
+                </select>
+                <div class="flex-1 relative">
+                    <input id="searchInput" type="text" placeholder="Search articles, authors, or keywords..." class="w-full p-2 pl-8 border rounded">
+                    <svg class="absolute left-2 top-3 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-            </section>
+            </div>
 
-            <aside>
-                <section class="sidebar-section">
-                    <h3>Recent Posts</h3>
-                    <ul>
-                        <li><a href="#">Advancements in CRISPR Gene Editing</a></li>
-                        <li><a href="#">The Future of Renewable Energy Technologies</a></li>
-                        <li><a href="#">Exploring Dark Matter: New Insights from Particle Physics</a></li>
-                    </ul>
-                </section>
-                <section class="sidebar-section">
-                    <h3>Popular Tags</h3>
-                    <div class="tag-cloud">
-                        <a href="#" class="tag">AI</a>
-                        <a href="#" class="tag">Machine Learning</a>
-                        <a href="#" class="tag">Data Science</a>
-                        <a href="#" class="tag">Quantum Computing</a>
-                        <a href="#" class="tag">Biotechnology</a>
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <div class="w-full md:w-1/4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2 class="font-bold mb-2">Categories</h2>
+                        <div id="categoryFilters">
+                            <!-- Category checkboxes will be dynamically inserted here -->
+                        </div>
                     </div>
-                </section>
-                <section class="sidebar-section">
-                    <h3>Newsletter Signup</h3>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email address" required>
-                        <button type="submit" class="btn">Subscribe</button>
-                    </form>
-                </section>
-            </aside>
+                </div>
+                <div class="w-full md:w-3/4">
+                    <div id="articleList" class="h-[600px] overflow-y-auto bg-white rounded shadow p-4">
+                        <!-- Article cards will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow mb-6">
+                <h2 class="font-bold mb-4">Indexing Information</h2>
+                <div id="indexingInfo" class="flex flex-wrap gap-4">
+                    <!-- Indexing database buttons will be dynamically inserted here -->
+                </div>
+            </div>
         </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Archives</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Categories</h3>
-                    <ul>
-                        <li><a href="#">Research Insights</a></li>
-                        <li><a href="#">Data Analysis</a></li>
-                        <li><a href="#">Technology</a></li>
-                        <li><a href="#">Case Studies</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><i data-lucide="twitter"></i></a>
-                        <a href="#"><i data-lucide="linkedin"></i></a>
-                        <a href="#"><i data-lucide="facebook"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Subscribe</h3>
-                    <p>Stay updated with our latest research and insights.</p>
-                    <button class="btn btn-outline">Subscribe Now</button>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Journal Blog. All rights reserved.</p>
+    <footer class="border-t py-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
+            <p class="text-center text-sm text-gray-600 md:text-left">
+                © 2023 Journal Name. All rights reserved.
+            </p>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                    </svg>
+                    <span class="sr-only">Twitter</span>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Facebook</span>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="sr-only">Email</span>
+                </a>
             </div>
         </div>
     </footer>
 
-    <button id="theme-toggle" aria-label="Toggle dark mode">
-        <i data-lucide="moon"></i>
-        <i data-lucide="sun"></i>
-    </button>
+    <!-- Modals -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">About Our Journal</h2>
+            <p class="mb-4">Our journal is dedicated to advancing scientific knowledge across various disciplines. With a rigorous peer-review process and a commitment to open access, we strive to publish cutting-edge research that pushes the boundaries of human understanding.</p>
+            <h3 class="text-xl font-semibold mb-2">Editorial Board</h3>
+            <ul class="list-disc list-inside">
+                <li>Prof. Jane Doe - Editor-in-Chief</li>
+                <li>Dr. John Smith - Associate Editor</li>
+                <li>Dr. Emily Brown - Associate Editor</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block mb-1">Name</label>
+                    <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label for="email" class="block mb-1">Email</label>
+                    <input type="email" id="email" name="email" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label for="message" class="block mb-1">Message</label>
+                    <textarea id="message" name="message" required class="w-full p-2 border rounded min-h-[100px]"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Sign In</h2>
+            <form id="signInForm" class="space-y-4">
+                <div>
+                    <label for="signInEmail" class="block mb-1">Email</label>
+                    <input type="email" id="signInEmail" name="email" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label for="signInPassword" class="block mb-1">Password</label>
+                    <input type="password" id="signInPassword" name="password" required class="w-full p-2 border rounded">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Sign In</button>
+            </form>
+            <div class="mt-4">
+                <p class="text-center mb-2">Or sign in with:</p>
+                <div class="flex justify-center space-x-4">
+                    <button class="px-4 py-2 border rounded flex items-center">
+                        <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub
+                    </button>
+                    <button class="px-4 py-2 border rounded flex items-center">
+                        <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996  0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        Twitter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // Dummy data for demonstration
+        const articles = [
+            {
+                title: "Advances in Quantum Computing",
+                authors: [
+                    { name: "Alice Johnson", bio: "Dr. Alice Johnson is a leading researcher in quantum computing..." },
+                    { name: "Bob Smith", bio: "Professor Bob Smith has been at the forefront of quantum theory for over two decades..." }
+                ],
+                abstract: "This paper discusses recent advancements in quantum computing, focusing on breakthroughs in qubit stability and quantum error correction. We present novel approaches to scaling quantum systems and their potential impact on real-world applications.",
+                keywords: ["quantum computing", "qubits", "quantum algorithms", "error correction"],
+                date: "2023-05-15",
+                doi: "10.1234/qc.2023.01.001",
+                category: "Research Articles",
+                citations: 42,
+                downloads: 1337,
+                rating: 4.8
+            },
+            {
+                title: "Machine Learning in Healthcare: A Comprehensive Review",
+                authors: [
+                    { name: "Carol Davis", bio: "Dr. Carol Davis specializes in the application of AI in healthcare..." },
+                    { name: "David Brown", bio: "David Brown is a data scientist with a focus on medical imaging analysis..." }
+                ],
+                abstract: "This review provides an extensive overview of machine learning applications in healthcare, covering diagnostic tools, treatment optimization, and predictive analytics. We analyze the current state of the field, challenges, and future directions.",
+                keywords: ["machine learning", "healthcare", "AI", "medical diagnosis", "predictive analytics"],
+                date: "2023-05-20",
+                doi: "10.1234/ml.2023.01.002",
+                category: "Reviews",
+                citations: 78,
+                downloads: 2156,
+                rating: 4.9
+            },
+            // Add more articles as needed
+        ];
 
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const categories = ["Research Articles", "Reviews", "Short Communications"];
+        const volumes = [1, 2, 3, 4, 5];
+        const issues = [1, 2, 3, 4];
+        const indexingDatabases = ["PubMed", "Scopus", "Web of Science"];
 
-        function setTheme(theme) {
-            document.body.classList.toggle('dark-theme', theme === 'dark');
-            localStorage.setItem('theme', theme);
+        // DOM elements
+        const volumeCarousel = document.getElementById('volumeCarousel');
+        const volumeSelect = document.getElementById('volumeSelect');
+        const issueSelect = document.getElementById('issueSelect');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilters = document.getElementById('categoryFilters');
+        const articleList = document.getElementById('articleList');
+        const indexingInfo = document.getElementById('indexingInfo');
+
+        // Populate volume carousel
+        volumes.forEach(volume => {
+            const card = document.createElement('div');
+            card.className = 'inline-block bg-white p-4 rounded shadow mr-4 mb-4';
+            card.innerHTML = `
+                <h3 class="font-bold mb-2">Volume ${volume}</h3>
+                <p class="mb-2">Latest research and findings</p>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded" onclick="selectVolume(${volume})">View Articles</button>
+            `;
+            volumeCarousel.appendChild(card);
+        });
+
+        // Populate volume and issue selects
+        volumes.forEach(volume => {
+            const option = document.createElement('option');
+            option.value = volume;
+            option.textContent = `Volume ${volume}`;
+            volumeSelect.appendChild(option);
+        });
+
+        issues.forEach(issue => {
+            const option = document.createElement('option');
+            option.value = issue;
+            option.textContent = `Issue ${issue}`;
+            issueSelect.appendChild(option);
+        });
+
+        // Populate category filters
+        categories.forEach(category => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" value="${category}" class="category-filter">
+                    <span>${category}</span>
+                </label>
+            `;
+            categoryFilters.appendChild(div);
+        });
+
+        // Populate indexing information
+        indexingDatabases.forEach(database => {
+            const button = document.createElement('button');
+            button.className = 'px-4 py-2 bg-gray-200 rounded flex items-center';
+            button.innerHTML = `
+                <img src="/${database.toLowerCase().replace(' ', '-')}-logo.svg" alt="${database} Logo" class="w-6 h-6 mr-2">
+                ${database}
+            `;
+            button.onclick = () => alert(`Redirecting to ${database}...`);
+            indexingInfo.appendChild(button);
+        });
+
+        // Event listeners
+        volumeSelect.addEventListener('change', updateArticles);
+        issueSelect.addEventListener('change', updateArticles);
+        searchInput.addEventListener('input', updateArticles);
+        categoryFilters.addEventListener('change', updateArticles);
+
+        // Functions
+        function selectVolume(volume) {
+            volumeSelect.value = volume;
+            updateArticles();
         }
 
-        // Set initial theme
-        const savedTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
-        setTheme(savedTheme);
+        function updateArticles() {
+            const selectedVolume = volumeSelect.value;
+            const selectedIssue = issueSelect.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
+            const filteredArticles = articles.filter(article => 
+                (selectedCategories.length === 0 || selectedCategories.includes(article.category)) &&
+                (article.title.toLowerCase().includes(searchTerm) ||
+                article.authors.some(author => author.name.toLowerCase().includes(searchTerm)) ||
+                article.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm)))
+            );
+
+            renderArticles(filteredArticles);
+        }
+
+        function renderArticles(articles) {
+            articleList.innerHTML = '';
+            articles.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-4 rounded shadow mb-4';
+                card.innerHTML = `
+                    <h3 class="font-bold mb-2">${article.title}</h3>
+                    <p class="text-sm text-gray-600 mb-2">${article.authors.map(author => `<a href="#" onclick="showAuthorBio('${author.name}')">${author.name}</a>`).join(', ')}</p>
+                    <button class="text-blue-600 mb-2" onclick="toggleAbstract(this)">View Abstract</button>
+                    <p class="abstract hidden mb-2">${article.abstract}</p>
+                    <div class="flex flex-wrap gap-2 mb-2">
+                        ${article.keywords.map(keyword => `<span class="bg-gray-200 px-2 py-1 rounded-full text-sm">${keyword}</span>`).join('')}
+                    </div>
+                    <p class="text-sm mb-1">Published: ${article.date}</p>
+                    <p class="text-sm mb-2">Category: ${article.category}</p>
+                    <div class="flex justify-between items-center">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded" onclick="downloadPDF('${article.doi}')">Download PDF</button>
+                        <span class="text-sm text-gray-600">${article.downloads} downloads</span>
+                        <div>
+                            <button class="text-gray-600" onclick="rateArticle(1)">👍</button>
+                            <button class="text-gray-600" onclick="rateArticle(-1)">👎</button>
+                            <span class="text-sm">⭐ ${article.rating.toFixed(1)}</span>
+                        </div>
+                        <a href="https://doi.org/${article.doi}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:underline">DOI: ${article.doi}</a>
+                    </div>
+                `;
+                articleList.appendChild(card);
+            });
+        }
+
+        function toggleAbstract(button) {
+            const abstract = button.nextElementSibling;
+            abstract.classList.toggle('hidden');
+            button.textContent = abstract.classList.contains('hidden') ? 'View Abstract' : 'Hide Abstract';
+        }
+
+        function showAuthorBio(authorName) {
+            const author = articles.flatMap(a => a.authors).find(a => a.name === authorName);
+            if (author) {
+                alert(`${author.name}\n\n${author.bio}`);
+            }
+        }
+
+        function downloadPDF(doi) {
+            alert(`Downloading PDF for DOI: ${doi}`);
+        }
+
+        function rateArticle(rating) {
+            alert(`Article rated ${rating > 0 ? 'positively' : 'negatively'}`);
+        }
+
+        // Modal functionality
+        const modals = {
+            about: document.getElementById('aboutModal'),
+            contact: document.getElementById('contactModal'),
+            signIn: document.getElementById('signInModal')
+        };
+
+        const openModal = (modalId) => {
+            modals[modalId].style.display = 'block';
+        };
+
+        const closeModal = (modalId) => {
+            modals[modalId].style.display = 'none';
+        };
+
+        document.getElementById('aboutBtn').onclick = () => openModal('about');
+        document.getElementById('contactBtn').onclick = () => openModal('contact');
+        document.getElementById('signInBtn').onclick = () => openModal('signIn');
+
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            };
         });
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Initialize articles
+        updateArticles();
     </script>
 </body>
 </html>
