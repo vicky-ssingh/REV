@@ -3,474 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile - Journal Website</title>
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --background-color: #f4f4f4;
-            --text-color: #333;
-            --border-color: #ddd;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        h1, h2, h3 {
-            margin-top: 0;
-        }
-
-        h1 {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .tabs {
-            display: flex;
-            background-color: var(--secondary-color);
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .tab:hover, .tab.active {
-            background-color: var(--primary-color);
-        }
-
-        .tab-content {
-            display: none;
-            padding: 20px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            font-weight: normal;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 5px;
-        }
-
-        .btn {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        .help-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 14px;
-            cursor: help;
-            margin-left: 5px;
-        }
-
-        .privacy-notice, .required-fields-note {
-            font-size: 14px;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        .rich-text-editor {
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 10px;
-            min-height: 100px;
-        }
-
-        .profile-image-upload {
-            border: 2px dashed var(--border-color);
-            border-radius: 4px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .profile-image-upload:hover {
-            background-color: #f9f9f9;
-        }
-
-        .api-key {
-            font-family: monospace;
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 4px;
-            word-break: break-all;
-        }
-
-        .notification-group {
-            margin-bottom: 20px;
-        }
-
-        .notification-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 20px;
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            font-weight: normal;
-        }
-
-        .radio-group input[type="radio"] {
-            margin-right: 5px;
-        }
-    </style>
+    <title>Journal Blog - Latest Research and Insights</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Profile <span class="help-icon" title="Edit your profile information">?</span></h1>
-        <div class="tabs">
-            <div class="tab active" data-tab="identity">Identity</div>
-            <div class="tab" data-tab="contact">Contact</div>
-            <div class="tab" data-tab="roles">Roles</div>
-            <div class="tab" data-tab="public">Public</div>
-            <div class="tab" data-tab="password">Password</div>
-            <div class="tab" data-tab="notifications">Notifications</div>
-            <div class="tab" data-tab="api-key">API Key</div>
+    <header>
+        <div class="container">
+            <nav>
+                <h1>Journal Blog</h1>
+                <div class="search-and-categories">
+                    <div class="search-container">
+                        <input type="search" placeholder="Search articles...">
+                        <i data-lucide="search"></i>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">Categories <i data-lucide="chevron-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="#">Research Insights</a>
+                            <a href="#">Data Analysis</a>
+                            <a href="#">Technology</a>
+                            <a href="#">Case Studies</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
+    </header>
 
-        <div id="identity" class="tab-content active">
-            <h2>API Key <span class="help-icon" title="Manage your API key">?</span></h2>
-            <p>An API key is required to be set in the config file before generation.</p>
-            <div class="form-group">
-                <label>Your API Key:</label>
-                <div class="api-key">a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6</div>
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Latest Research: AI in Healthcare</h2>
+                <p>Explore the groundbreaking applications of artificial intelligence in modern healthcare, from diagnosis to treatment planning and beyond.</p>
+                <a href="#" class="btn">Read More</a>
             </div>
-            <button class="btn">Regenerate API Key</button>
-            <button class="btn" style="background-color: #e74c3c;">Delete API Key</button>
-            <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+            <div class="hero-image"></div>
+        </section>
+
+        <div class="content-sidebar-layout">
+            <section class="articles">
+                <h2>Latest Articles</h2>
+                <div class="article-grid">
+                    <article class="article-card">
+                        <h3>The Impact of Machine Learning on Scientific Research</h3>
+                        <p>Machine learning is revolutionizing the way scientists approach complex problems, enabling faster data analysis and uncovering hidden patterns in vast datasets.</p>
+                        <div class="article-meta">
+                            <span><i data-lucide="calendar"></i> May 15, 2023</span>
+                            <span><i data-lucide="user"></i> Dr. Jane Smith</span>
+                            <span><i data-lucide="tag"></i> Data Science</span>
+                        </div>
+                        <a href="#" class="btn btn-outline">Read More</a>
+                    </article>
+                    <article class="article-card">
+                        <h3>Advancements in Quantum Computing: A New Era of Computation</h3>
+                        <p>Quantum computing promises to revolutionize information processing, offering the potential to solve complex problems that are currently intractable for classical computers.</p>
+                        <div class="article-meta">
+                            <span><i data-lucide="calendar"></i> May 10, 2023</span>
+                            <span><i data-lucide="user"></i> Prof. Alex Johnson</span>
+                            <span><i data-lucide="tag"></i> Quantum Computing</span>
+                        </div>
+                        <a href="#" class="btn btn-outline">Read More</a>
+                    </article>
+                    <article class="article-card">
+                        <h3>The Role of Big Data in Climate Change Research</h3>
+                        <p>Big data analytics are providing unprecedented insights into climate patterns, helping scientists to better understand and predict the impacts of global warming.</p>
+                        <div class="article-meta">
+                            <span><i data-lucide="calendar"></i> May 5, 2023</span>
+                            <span><i data-lucide="user"></i> Dr. Emily Chen</span>
+                            <span><i data-lucide="tag"></i> Climate Science</span>
+                        </div>
+                        <a href="#" class="btn btn-outline">Read More</a>
+                    </article>
+                </div>
+            </section>
+
+            <aside>
+                <section class="sidebar-section">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        <li><a href="#">Advancements in CRISPR Gene Editing</a></li>
+                        <li><a href="#">The Future of Renewable Energy Technologies</a></li>
+                        <li><a href="#">Exploring Dark Matter: New Insights from Particle Physics</a></li>
+                    </ul>
+                </section>
+                <section class="sidebar-section">
+                    <h3>Popular Tags</h3>
+                    <div class="tag-cloud">
+                        <a href="#" class="tag">AI</a>
+                        <a href="#" class="tag">Machine Learning</a>
+                        <a href="#" class="tag">Data Science</a>
+                        <a href="#" class="tag">Quantum Computing</a>
+                        <a href="#" class="tag">Biotechnology</a>
+                    </div>
+                </section>
+                <section class="sidebar-section">
+                    <h3>Newsletter Signup</h3>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </section>
+            </aside>
         </div>
+    </main>
 
-        <div id="contact" class="tab-content">
-            <h2>Contact Information <span class="help-icon" title="Manage your contact details">?</span></h2>
-            <form>
-                <div class="form-group">
-                    <label for="email">Email Address*</label>
-                    <input type="email" id="email" required>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Archives</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="signature">Signature</label>
-                    <div class="rich-text-editor" id="signature" contenteditable="true"></div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Research Insights</a></li>
+                        <li><a href="#">Data Analysis</a></li>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone">
-                </div>
-                <div class="form-group">
-                    <label for="affiliation">Affiliation</label>
-                    <input type="text" id="affiliation">
-                </div>
-                <div class="form-group">
-                    <label for="mailing-address">Mailing Address</label>
-                    <div class="rich-text-editor" id="mailing-address" contenteditable="true"></div>
-                </div>
-                <div class="form-group">
-                    <label for="country">Country*</label>
-                    <select id="country" required>
-                        <option value="">Select a country</option>
-                        <option value="us">United States</option>
-                        <option value="uk">United Kingdom</option>
-                        <!-- Add more country options -->
-                    </select>
-                </div>
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
-                <button type="submit" class="btn">Save</button>
-            </form>
-        </div>
-
-        <div id="roles" class="tab-content">
-            <h2>Roles <span class="help-icon" title="Select your roles within the journal">?</span></h2>
-            <form>
-                <div class="form-group">
-                    <label>Roles</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="role" value="reader"> Reader</label>
-                        <label><input type="checkbox" name="role" value="author"> Author</label>
-                        <label><input type="checkbox" name="role" value="reviewer"> Reviewer</label>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i data-lucide="twitter"></i></a>
+                        <a href="#"><i data-lucide="linkedin"></i></a>
+                        <a href="#"><i data-lucide="facebook"></i></a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="reviewing-interests">Reviewing Interests</label>
-                    <textarea id="reviewing-interests" rows="4"></textarea>
+                <div class="footer-section">
+                    <h3>Subscribe</h3>
+                    <p>Stay updated with our latest research and insights.</p>
+                    <button class="btn btn-outline">Subscribe Now</button>
                 </div>
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
-                <button type="submit" class="btn">Save</button>
-            </form>
-        </div>
-
-        <div id="public" class="tab-content">
-            <h2>Public Profile <span class="help-icon" title="Manage your public profile information">?</span></h2>
-            <form>
-                <div class="form-group">
-                    <label for="profile-image">Profile Image</label>
-                    <div class="profile-image-upload" id="profile-image">
-                        <p>Drag and drop or click to upload a profile picture</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="bio-statement">Bio Statement</label>
-                    <div class="rich-text-editor" id="bio-statement" contenteditable="true"></div>
-                </div>
-                <div class="form-group">
-                    <label for="homepage-url">Homepage URL</label>
-                    <input type="url" id="homepage-url">
-                </div>
-                <div class="form-group">
-                    <label for="orcid-id">ORCID iD</label>
-                    <input type="text" id="orcid-id" placeholder="0000-0000-0000-0000">
-                </div>
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
-                <button type="submit" class="btn">Save</button>
-            </form>
-        </div>
-
-        <div id="password" class="tab-content">
-            <h2>Change Password <span class="help-icon" title="Update your account password">?</span></h2>
-            <form>
-                <div class="form-group">
-                    <label for="current-password">Current Password*</label>
-                    <input type="password" id="current-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="new-password">New Password*</label>
-                    <input type="password" id="new-password" required>
-                    <p>Password must be at least 6 characters long.</p>
-                </div>
-                <div class="form-group">
-                    <label for="repeat-password">Repeat New Password*</label>
-                    <input type="password" id="repeat-password" required>
-                </div>
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <button type="submit" class="btn">Save</button>
-                <button type="button" class="btn" style="background-color: #ccc;">Cancel</button>
-            </form>
-        </div>
-
-        <div id="notifications" class="tab-content">
-            <h2>Notification Preferences <span class="help-icon" title="Manage your notification settings">?</span></h2>
-            <form>
-                <h3>Public Announcements</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>Announcements</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="announcements" value="enable"> Enable</label>
-                            <label><input type="radio" name="announcements" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Issue publications</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="issue-publications" value="enable"> Enable</label>
-                            <label><input type="radio" name="issue-publications" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Open access changes</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="open-access-changes" value="enable"> Enable</label>
-                            <label><input type="radio" name="open-access-changes" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Submission Events</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>New article submissions</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="new-submissions" value="enable"> Enable</label>
-                            <label><input type="radio" name="new-submissions" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Assignments to editors</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="editor-assignments" value="enable"> Enable</label>
-                            <label><input type="radio" name="editor-assignments" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <label>Discussion updates</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="discussion-updates" value="enable"> Enable</label>
-                            <label><input type="radio" name="discussion-updates" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Reviewing Events</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>Comments by reviewers on articles</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="reviewer-comments" value="enable"> Enable</label>
-                            <label><input type="radio" name="reviewer-comments" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Editors</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>Weekly email summaries of outstanding tasks</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="editor-summaries" value="enable"> Enable</label>
-                            <label><input type="radio" name="editor-summaries" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Statistics Report Summary</h3>
-                <div class="notification-group">
-                    <div class="notification-item">
-                        <label>Regular summaries of statistics reports</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="statistics-summaries" value="enable"> Enable</label>
-                            <label><input type="radio" name="statistics-summaries" value="disable"> Disable</label>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
-                <p class="required-fields-note">Required fields are marked with an asterisk (*)</p>
-                <button type="submit" class="btn">Save</button>
-            </form>
-        </div>
-
-        <div id="api-key" class="tab-content">
-            <h2>API Key <span class="help-icon" title="Manage your API key">?</span></h2>
-            <p>An API key is required to be set in the config file before generation.</p>
-            <div class="form-group">
-                <label>Your API Key:</label>
-                <div class="api-key">a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6</div>
             </div>
-            <button class="btn">Regenerate API Key</button>
-            <button class="btn" style="background-color: #e74c3c;">Delete API Key</button>
-            <p class="privacy-notice">Your data is stored in accordance with our privacy statement.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Journal Blog. All rights reserved.</p>
+            </div>
         </div>
-    </div>
+    </footer>
+
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+        <i data-lucide="moon"></i>
+        <i data-lucide="sun"></i>
+    </button>
 
     <script>
-        // Tab functionality
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-
-        // Profile image upload simulation
-        const profileImageUpload =   document.getElementById('profile-image');
-        profileImageUpload.addEventListener('click', () => {
-            alert('This would open a file picker in a real implementation.');
-        });
-
-        // Password validation
-        const newPasswordInput = document.getElementById('new-password');
-        const repeatPasswordInput = document.getElementById('repeat-password');
-
-        function validatePassword() {
-            if (newPasswordInput.value !== repeatPasswordInput.value) {
-                repeatPasswordInput.setCustomValidity("Passwords don't match");
-            } else {
-                repeatPasswordInput.setCustomValidity('');
-            }
+        function setTheme(theme) {
+            document.body.classList.toggle('dark-theme', theme === 'dark');
+            localStorage.setItem('theme', theme);
         }
 
-        newPasswordInput.addEventListener('change', validatePassword);
-        repeatPasswordInput.addEventListener('keyup', validatePassword);
+        // Set initial theme
+        const savedTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
     </script>
 </body>
 </html>
