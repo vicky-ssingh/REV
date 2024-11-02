@@ -4,47 +4,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const form = document.getElementById('submissionForm');
     const steps = document.querySelectorAll('.step');
+    const stepLabels = document.querySelectorAll('.step-label');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const submitBtn = document.getElementById('submitBtn');
     const progressBar = document.querySelector('.progress');
-    const milestones = document.querySelectorAll('.milestone');
     let currentStep = 0;
-
-    // Welcome screen
-    const startSubmissionBtn = document.getElementById('startSubmission');
-    startSubmissionBtn.addEventListener('click', () => {
-        document.getElementById('welcome').classList.remove('active');
-        showStep(0);
-    });
 
     function showStep(n) {
         steps[currentStep].classList.remove('active');
+        stepLabels[currentStep].classList.remove('active');
         steps[n].classList.add('active');
+        stepLabels[n].classList.add('active');
         currentStep = n;
 
         updateButtons();
         updateProgressBar();
-        updateMilestones();
     }
 
     function updateButtons() {
         prevBtn.style.display = currentStep === 0 ? 'none' : 'inline-block';
-        nextBtn.textContent = currentStep === steps.length - 1 ? 'Submit' : 'Continue';
+        if (currentStep === steps.length - 1) {
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'inline-block';
+        } else {
+            nextBtn.style.display = 'inline-block';
+            submitBtn.style.display = 'none';
+        }
     }
 
     function updateProgressBar() {
         const progress = ((currentStep + 1) / steps.length) * 100;
-        progressBar.style.width =   progress + '%';
-    }
-
-    function updateMilestones() {
-        milestones.forEach((milestone, index) => {
-            if (index <= currentStep) {
-                milestone.classList.add('active');
-            } else {
-                milestone.classList.remove('active');
-            }
-        });
+        progressBar.style.width = `${progress}%`;
     }
 
     prevBtn.addEventListener('click', () => {
@@ -52,109 +44,116 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     nextBtn.addEventListener('click', () => {
-        if (currentStep < steps.length - 1) {
-            if (validateStep()) {
-                showStep(currentStep + 1);
-            }
+        if (validateStep()) {
+            if (currentStep < steps.length - 1) showStep(currentStep + 1);
+        }
+    });
+
+    saveBtn.addEventListener('click', () => {
+        // Simulate saving progress
+        showNotification('Progress saved successfully!');
+    });
+
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (validateStep() && document.getElementById('confirmSubmission').checked) {
+            // Simulate form submission
+            showNotification('Submission successful!', 'success');
+            // Add animation for successful submission
+            const successAnimation = document.createElement('div');
+            successAnimation.className = 'success-animation';
+            successAnimation.innerHTML = '<i data-lucide="check-circle"></i>';
+            document.body.appendChild(successAnimation);
+            setTimeout(() => successAnimation.remove(), 3000);
         } else {
-            submitForm();
+            showNotification('Please confirm your submission.', 'error');
         }
     });
 
     function validateStep() {
-        const inputs = steps[currentStep].querySelectorAll('input[required], textarea[required]');
+        const currentStepElement = steps[currentStep];
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
         let isValid = true;
-        inputs.forEach(input => {
-            if (!input.value.trim()) {
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
                 isValid = false;
-                input.classList.add('invalid');
-                showValidationMessage(input, 'This field is required');
+                field.classList.add('invalid');
+                showNotification(`Please fill out the ${field.name} field.`, 'error');
             } else {
-                input.classList.remove('invalid');
-                hideValidationMessage(input);
+                field.classList.remove('invalid');
             }
         });
+
         return isValid;
     }
 
-    function showValidationMessage(input, message) {
-        let validationMessage = input.nextElementSibling;
-        if (!validationMessage || !validationMessage.classList.contains('validation-message')) {
-            validationMessage = document.createElement('div');
-            validationMessage.classList.add('validation-message');
-            input.parentNode.insertBefore(validationMessage, input.nextSibling);
-        }
-        validationMessage.textContent = message;
-        validationMessage.style.color = 'red';
-        input.classList.add('shake');
-        setTimeout(() => input.classList.remove('shake'), 500);
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
     }
 
-    function hideValidationMessage(input) {
-        const validationMessage = input.nextElementSibling;
-        if (validationMessage && validationMessage.classList.contains('validation-message')) {
-            validationMessage.remove();
-        }
-    }
-
-    function submitForm() {
-        if (validateStep()) {
-            alert('Form submitted successfully!');
-            // Here you would typically send the form data to a server
-        }
-    }
-
-    // Auto-save functionality
-    const autoSaveInputs = document.querySelectorAll('input, textarea');
-    autoSaveInputs.forEach(input => {
-        input.addEventListener('input', debounce(() => {
-            const autoSaveIndicator = input.parentNode.querySelector('.auto-save');
-            autoSaveIndicator.style.display = 'flex';
-            setTimeout(() => {
-                autoSaveIndicator.style.display = 'none';
-            }, 2000);
-        }, 1000));
-    });
-
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Word counter for abstract
-    const abstractTextarea = document.getElementById('abstract');
-    const wordCounter = document.querySelector('.word-counter');
-    abstractTextarea.addEventListener('input', () => {
-        const wordCount = abstractTextarea.value.trim().split(/\s+/).length;
-        wordCounter.textContent = `${wordCount} / 300 words`;
-        if (wordCount > 300) {
-            wordCounter.style.color = 'red';
+    // Character counter for title
+    const titleInput = document.getElementById('title');
+    const characterCounter = document.querySelector('.character-counter');
+    titleInput.addEventListener('input', () => {
+        const count = titleInput.value.length;
+        characterCounter.textContent = `${count} / 200 characters`;
+        if (count > 200) {
+            characterCounter.style.color = 'red';
         } else {
-            wordCounter.style.color = '';
+            characterCounter.style.color = '';
         }
     });
 
-    // File upload handling
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileUpload');
-    const filePreview = document.getElementById('filePreview');
-
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
+    // Keywords tagging
+    const keywordsInput = document.getElementById('keywords');
+    const tagsContainer = document.querySelector('.tags');
+    keywordsInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && keywordsInput.value.trim()) {
+            e.preventDefault();
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.innerHTML = `${keywordsInput.value.trim()} <span class="remove">&times;</span>`;
+            tagsContainer.appendChild(tag);
+            keywordsInput.value = '';
+        }
     });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', (e) => {
+    tagsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove')) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    // Rich text editor
+    const editorButtons = document.querySelectorAll('.editor-toolbar button');
+    const editorContent = document.getElementById('abstract');
+    editorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const command = button.dataset.command;
+            document.execCommand(command, false, null);
+        });
+    });
+
+    // File upload
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileUpload');
+    const fileList = document.getElementById('fileList');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
-        dropZone.classList.remove('dragover');
+        uploadArea.classList.add('dragover');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
         handleFiles(e.dataTransfer.files);
     });
     fileInput.addEventListener('change', () => handleFiles(fileInput.files));
@@ -162,14 +161,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleFiles(files) {
         for (let file of files) {
             const fileItem = document.createElement('div');
-            fileItem.classList.add('file-item');
+            fileItem.className = 'file-item';
             fileItem.innerHTML = `
                 <i data-lucide="${getFileIcon(file.name)}"></i>
                 <span>${file.name}</span>
+                <button class="remove-file">&times;</button>
             `;
-            filePreview.appendChild(fileItem);
+            fileList.appendChild(fileItem);
+            lucide.createIcons();
         }
-        lucide.createIcons();
     }
 
     function getFileIcon(fileName) {
@@ -185,43 +185,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Contributor handling
+    fileList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-file')) {
+            e.target.closest('.file-item').remove();
+        }
+    });
+
+    // Contributors
     const addContributorBtn = document.getElementById('addContributor');
     const contributorList = document.getElementById('contributorList');
-    let contributorCount = 0;
+    const contributorModal = document.getElementById('contributorModal');
+    const contributorForm = document.getElementById('contributorForm');
+    const cancelContributorBtn = document.getElementById('cancelContributor');
 
     addContributorBtn.addEventListener('click', () => {
-        contributorCount++;
-        const contributorDiv = document.createElement('div');
-        contributorDiv.classList.add('contributor');
-        contributorDiv.innerHTML = `
-            <div class="contributor-header">
-                <div class="contributor-avatar">${getInitials(`Contributor ${contributorCount}`)}</div>
-                <h3>Contributor ${contributorCount}</h3>
-                <button type="button" class="remove-contributor">Remove</button>
+        contributorModal.style.display = 'block';
+    });
+
+    cancelContributorBtn.addEventListener('click', () => {
+        contributorModal.style.display = 'none';
+    });
+
+    contributorForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('contributorName').value;
+        const email = document.getElementById('contributorEmail').value;
+        const role = document.getElementById('contributorRole').value;
+        const isPrimary = document.getElementById('isPrimaryContact').checked;
+
+        const contributorCard = document.createElement('div');
+        contributorCard.className = 'contributor-card';
+        contributorCard.innerHTML = `
+            <div class="contributor-info">
+                <h3>${name}</h3>
+                <p>${email} - ${role}</p>
+                ${isPrimary ? '<span class="primary-badge">Primary Contact</span>' : ''}
             </div>
-            <input type="text" placeholder="Name" required>
-            <input type="email" placeholder="Email" required>
-            <select>
-                <option value="author">Author</option>
-                <option value="co-author">Co-Author</option>
-            </select>
-            <label>
-                <input type="checkbox" class="primary-contact"> Primary Contact
-            </label>
+            <div class="contributor-actions">
+                <button class="edit-contributor">Edit</button>
+                <button class="remove-contributor">Remove</button>
+            </div>
         `;
-        contributorList.appendChild(contributorDiv);
+        contributorList.appendChild(contributorCard);
+        contributorModal.style.display = 'none';
+        contributorForm.reset();
     });
 
     contributorList.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-contributor')) {
-            e.target.closest('.contributor').remove();
+            e.target.closest('.contributor-card').remove();
+        } else if (e.target.classList.contains('edit-contributor')) {
+            // Implement edit functionality
         }
     });
 
-    function getInitials(name) {
-        return name.split(' ').map(n => n[0]).join('').toUpperCase();
-    }
+    // Help panel
+    const helpIcon = document.getElementById('helpIcon');
+    const helpPanel = document.getElementById('helpPanel');
+    helpIcon.addEventListener('click', () => {
+        helpPanel.style.display = helpPanel.style.display === 'none' ? 'block' : 'none';
+    });
 
     // Review summary
     function updateReviewSummary() {
@@ -229,14 +252,14 @@ document.addEventListener('DOMContentLoaded', function() {
         summary.innerHTML = `
             <h3>Article Details</h3>
             <p><strong>Title:</strong> ${document.getElementById('title').value}</p>
-            <p><strong>Keywords:</strong> ${document.getElementById('keywords').value}</p>
-            <p><strong>Abstract:</strong> ${document.getElementById('abstract').value}</p>
+            <p><strong>Keywords:</strong> ${Array.from(document.querySelectorAll('.tag')).map(tag => tag.textContent.trim()).join(', ')}</p>
+            <p><strong>Abstract:</strong> ${document.getElementById('abstract').innerHTML}</p>
             
             <h3>Uploaded Files</h3>
-            <ul>${Array.from(filePreview.children).map(li => li.textContent).join('')}</ul>
+            <ul>${Array.from(document.querySelectorAll('.file-item')).map(item => `<li>${item.textContent}</li>`).join('')}</ul>
             
             <h3>Contributors</h3>
-            ${contributorList.innerHTML}
+            ${Array.from(document.querySelectorAll('.contributor-card')).map(card => `<p>${card.querySelector('h3').textContent} - ${card.querySelector('p').textContent}</p>`).join('')}
             
             <h3>Editor Comments</h3>
             <p>${document.getElementById('editorComments').value || 'No comments provided.'}</p>
